@@ -14,10 +14,12 @@ def extract_qna_from_pdfs(folder_path):
     if not os.path.exists(folder_path):
         raise FileNotFoundError(f"Folder does not exist: {folder_path}")
     
+    # Loop through all PDF files in the specified folder
     for filename in os.listdir(folder_path):
         if filename.endswith(".pdf"):
             path = os.path.join(folder_path, filename)
             try:
+                # Open and process each PDF
                 with pdfplumber.open(path) as pdf:
                     for page in pdf.pages:
                         words = page.extract_words(extra_attrs=["fontname"], use_text_flow=True)
@@ -25,10 +27,12 @@ def extract_qna_from_pdfs(folder_path):
                         current_question = []
                         found_answer = None
 
+                        # Extract words based on font style (bold for answers)
                         for word in words:
                             text = word['text'].strip()
                             font = word['fontname'].lower()
 
+                            # Build questions and capture bold answers
                             if 'bold' not in font:
                                 current_question.append(text)
                             elif current_question:
@@ -67,7 +71,8 @@ def create_qa_function(questions, answers):
     return search_keyword
 
 # ========== Step 4: Initialize ========== #
-pdf_folder = "/path/to/your/pdf/folder"  # Update this with the correct path
+# Dynamically fetch the folder path based on deployment
+pdf_folder = os.getenv("PDF_FOLDER_PATH", "/path/to/your/pdf/folder")  # Update this in your deployment
 
 # Check if folder path exists and is valid
 if not os.path.exists(pdf_folder):
@@ -93,5 +98,6 @@ iface = gr.Interface(
     description="Search MCQs from PDFs by keyword. Answers (in bold) are pulled from bold-marked text.",
 )
 
-# If deploying via Streamlit or another service, you can use `iface.launch(inline=True)` for inline
-iface.launch()
+# Launch the Gradio interface
+iface.launch(share=True)  # Use share=True for external access, if needed
+
