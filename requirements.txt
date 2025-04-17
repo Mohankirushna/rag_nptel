@@ -6,4 +6,9 @@ transformers
 gradio
 # Add any other libraries you're using
 faiss-cpu==1.10.0
-
+streamlit
+torch
+PyPDF2
+numpy
+Pillow
+pandas
