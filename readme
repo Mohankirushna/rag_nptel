@@ -1,0 +1,23 @@
+# 📄 MCQ PDF Keyword Q&A Search
+
+A Python tool to extract multiple-choice questions (MCQs) and answers from PDFs where answers are in **bold text**, and build a keyword-based searchable Q&A interface using Gradio.
+
+---
+
+## Features
+
+- Extract question and answer pairs from PDF files.
+- Detect answers based on bold font style in the PDFs.
+- Use Sentence Transformers to embed questions.
+- Build a FAISS index for fast similarity search.
+- Provide a user-friendly web interface for keyword search using Gradio.
+- Return matching questions and answers with answers highlighted in bold.
+
+---
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
